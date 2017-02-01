@@ -14,6 +14,20 @@ using OpenTK.Graphics.OpenGL;
 namespace WindowsFormsApplication2
 {
 
+    public struct Point3D
+    {
+        public Point3D(double xx, double yy, double zz)
+        {
+            x = xx;
+            y = yy;
+            z = zz;
+        }
+
+        public double x;
+        public double y;
+        public double z;
+    }
+
     public partial class Form1 : Form
     {
         float AngleX = 0;
@@ -80,17 +94,62 @@ namespace WindowsFormsApplication2
 
             // формирование изображения
             GL.PolygonMode(MaterialFace.FrontAndBack, mode);
-            GL.Begin(BeginMode.QuadStrip);
-            double r = 0.5;
-            int n = 10;
-            for (int i = 0; i <= n; ++i)
-            {
-                double a = 2 * Math.PI/n * i;
-                double x = r * Math.Cos(a);
-                double y = r * Math.Sin(a);
-                GL.Vertex3(x, y, -0.5);
-                GL.Vertex3(x, y,  0.5);
-            }
+            GL.Begin(BeginMode.Quads);
+            //double r = 0.5;
+            //int n = 10;
+            //for (int i = 0; i <= n; ++i)
+            //{
+            //    double a = 2 * Math.PI/n * i;
+            //    double x = r * Math.Cos(a);
+            //    double y = r * Math.Sin(a);
+            //    GL.Vertex3(x, y, -0.5);
+            //    GL.Vertex3(x, y,  0.5);
+            //}
+
+
+            var vertexArr = new Point3D[8];
+
+            var sPoint = new Point3D() { x = -0.5, y = -0.5, z = 0 };
+            var ePoint = new Point3D() { x =  0.5, y =  0.5, z = 0 };
+           
+            var width = 0.1;
+            var height = 0.1;
+            
+            var hypotenuse = Math.Sqrt(Math.Pow((ePoint.x - sPoint.x), 2) + Math.Pow((ePoint.y - sPoint.y), 2));
+            
+            var sinAlpha = (ePoint.y - sPoint.y) / hypotenuse;
+            var cosAlpha = (ePoint.x - sPoint.x) / hypotenuse;
+            
+            var xfs = sPoint.x - (width / 2) * sinAlpha;
+            var yfs = sPoint.y + (width / 2) * cosAlpha;
+            
+            var xls = sPoint.x + (width / 2) * sinAlpha;
+            var yls = sPoint.y - (width / 2) * cosAlpha;
+            
+            var xfe = ePoint.x - (width / 2) * sinAlpha;
+            var yfe = ePoint.y + (width / 2) * cosAlpha;
+            
+            var xle = ePoint.x + (width / 2) * sinAlpha;
+            var yle = ePoint.y - (width / 2) * cosAlpha;
+
+            //vertexArr[0] = new Point3D(xfs, yfs, 0);
+            //vertexArr[1] = new Point3D(xfs, yfs, height);
+            //vertexArr[2] = new Point3D(xls, yls, height);
+            //vertexArr[3] = new Point3D(xls, yls, 0);
+            //vertexArr[4] = new Point3D(xfe, yfe, 0);
+            //vertexArr[5] = new Point3D(xfe, yfe, height);
+            //vertexArr[6] = new Point3D(xle, yle, height);
+            //vertexArr[7] = new Point3D(xle, yle, 0);
+
+            GL.Vertex3(xfs, yfs, 0);
+            GL.Vertex3(xfs, yfs, height);
+            GL.Vertex3(xls, yls, height);
+            GL.Vertex3(xls, yls, 0);
+            GL.Vertex3(xfe, yfe, 0);
+            GL.Vertex3(xfe, yfe, height);
+            GL.Vertex3(xle, yle, height);
+            GL.Vertex3(xle, yle, 0);
+
             GL.End();
             // завершение формирования изображения
 
