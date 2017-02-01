@@ -51,7 +51,7 @@
             this.ClientSize = new System.Drawing.Size(453, 431);
             this.Controls.Add(this.glControl1);
             this.Name = "Form1";
-            this.Text = "Пример № 5.2";
+            this.Text = "Explode line";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 

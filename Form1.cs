@@ -75,26 +75,27 @@ namespace WindowsFormsApplication2
             GL.Rotate(AngleY, 0.0, 1.0, 0.0);
             GL.Rotate(AngleZ, 0.0, 0.0, 1.0);
 
-            // оси координат
-            GL.Begin(BeginMode.Lines);
-            // ось x
-            GL.Color3(1f, 1, 1); GL.Vertex2(-6, 0);
-            GL.Color3(0f, 0, 1); GL.Vertex2(6, 0);
-            // ось y
-            GL.Color3(1f, 1, 1); GL.Vertex2(0, -6);
-            GL.Color3(0f, 1, 0); GL.Vertex2(0, 6);
-            // ось z
-            GL.Color3(1f, 1, 1); GL.Vertex3(0, 0, -6);
-            GL.Color3(1f, 0, 0); GL.Vertex3(0, 0, 6);
-            GL.End();
-            //...//
+            //// оси координат
+            //GL.Begin(BeginMode.Lines);
+            //// ось x
+            //GL.Color3(1f, 1, 1); GL.Vertex2(-6, 0);
+            //GL.Color3(0f, 0, 1); GL.Vertex2(6, 0);
+            //// ось y
+            //GL.Color3(1f, 1, 1); GL.Vertex2(0, -6);
+            //GL.Color3(0f, 1, 0); GL.Vertex2(0, 6);
+            //// ось z
+            //GL.Color3(1f, 1, 1); GL.Vertex3(0, 0, -6);
+            //GL.Color3(1f, 0, 0); GL.Vertex3(0, 0, 6);
+            //GL.End();
+            ////...//
 
 
-            GL.Color3(1f, 0, 0);
+            GL.Color3(0.1f, 0, 1f);
+            GL.LineWidth(2.0f);
 
             // формирование изображения
             GL.PolygonMode(MaterialFace.FrontAndBack, mode);
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(BeginMode.Lines);
             //double r = 0.5;
             //int n = 10;
             //for (int i = 0; i <= n; ++i)
@@ -107,13 +108,14 @@ namespace WindowsFormsApplication2
             //}
 
 
+
             var vertexArr = new Point3D[8];
 
             var sPoint = new Point3D() { x = -0.5, y = -0.5, z = 0 };
             var ePoint = new Point3D() { x =  0.5, y =  0.5, z = 0 };
            
-            var width = 0.1;
-            var height = 0.1;
+            var width = 0.2;
+            var height = 0.2;
             
             var hypotenuse = Math.Sqrt(Math.Pow((ePoint.x - sPoint.x), 2) + Math.Pow((ePoint.y - sPoint.y), 2));
             
@@ -141,14 +143,45 @@ namespace WindowsFormsApplication2
             //vertexArr[6] = new Point3D(xle, yle, height);
             //vertexArr[7] = new Point3D(xle, yle, 0);
 
-            GL.Vertex3(xfs, yfs, 0);
-            GL.Vertex3(xfs, yfs, height);
-            GL.Vertex3(xls, yls, height);
-            GL.Vertex3(xls, yls, 0);
-            GL.Vertex3(xfe, yfe, 0);
-            GL.Vertex3(xfe, yfe, height);
-            GL.Vertex3(xle, yle, height);
-            GL.Vertex3(xle, yle, 0);
+            GL.Vertex3(xfs, yfs, 0); // 1
+            GL.Vertex3(xfs, yfs, height); // 2
+
+            GL.Vertex3(xfs, yfs, height); // 2
+            GL.Vertex3(xls, yls, height); // 3
+
+            GL.Vertex3(xls, yls, height); // 3
+            GL.Vertex3(xls, yls, 0); // 4
+
+            GL.Vertex3(xls, yls, 0); // 4
+            GL.Vertex3(xfs, yfs, 0); // 1
+
+
+
+            GL.Vertex3(xfs, yfs, 0); // 1
+            GL.Vertex3(xfe, yfe, 0); // 1 5
+
+            GL.Vertex3(xfs, yfs, height); // 2
+            GL.Vertex3(xfe, yfe, height); // 2 6
+
+            GL.Vertex3(xls, yls, height); // 3
+            GL.Vertex3(xle, yle, height); // 3 7
+
+            GL.Vertex3(xls, yls, 0); // 4
+            GL.Vertex3(xle, yle, 0); // 4 8
+
+
+
+            GL.Vertex3(xfe, yfe, 0); // 1 5
+            GL.Vertex3(xfe, yfe, height); // 2 6
+
+            GL.Vertex3(xfe, yfe, height); // 2 6
+            GL.Vertex3(xle, yle, height); // 3 7
+
+            GL.Vertex3(xle, yle, height); // 3 7
+            GL.Vertex3(xle, yle, 0); // 4 8
+
+            GL.Vertex3(xle, yle, 0); // 4 8
+            GL.Vertex3(xfe, yfe, 0); // 1 5
 
             GL.End();
             // завершение формирования изображения
